@@ -1,7 +1,10 @@
 extends KinematicBody2D
 
 onready var infiltrator_scene: PackedScene = load("res://assets/player/infiltrator.tscn")
-onready var sprite: AnimatedSprite = $Sprite
+onready var sprites_viewport_container: ViewportContainer = $SpritesViewportContainer
+onready var sprites_viewport: Viewport = sprites_viewport_container.get_node("SpritesViewport")
+onready var sprite_collection: Node2D = $spritecollection
+onready var animator: AnimationPlayer = sprite_collection.get_node("AnimationPlayer")
 
 signal main_player_moved(position)
 
@@ -35,6 +38,10 @@ var last_reveived_input: int = 0
 var input_queue: Array = []
 
 func _ready():
+	# Parent spritecollection to SpritesViewport
+	remove_child(sprite_collection)
+	sprites_viewport.add_child(sprite_collection)
+	
 	# Set the sprite material for every player to be a duplicate of their
 	# initial material so that outlines may be modified independently.
 	#sprite.set_material(sprite.material.duplicate())
@@ -148,9 +155,9 @@ func _physics_process(_delta):
 			face_right = false
 			$spritecollection.scale.x = -$spritecollection.scale.x
 	elif movement.y > y_anim_margin:
-		$spritecollection/AnimationPlayer.play("h_move")
+		animator.play("h_move")
 	elif movement.y < -y_anim_margin:
-		$spritecollection/AnimationPlayer.play("h_move")
+		animator.play("h_move")
 	else:
 		$spritecollection/AnimationPlayer.play("idle", 0.2)
 

@@ -39,9 +39,7 @@ var input_queue: Array = []
 
 func _ready():
 	# Parent spritecollection to SpritesViewport
-	remove_child(sprite_collection)
 	sprites_viewport.add_child(sprite_collection)
-	
 	# Set the sprite material for every player to be a duplicate of their
 	# initial material so that outlines may be modified independently.
 	#sprite.set_material(sprite.material.duplicate())
@@ -145,21 +143,23 @@ func _physics_process(_delta):
 
 	# We handle animations and stuff here
 	if movement.x > x_anim_margin:
-		$spritecollection/AnimationPlayer.play("h_move")
+		animator.play("h_move")
 		if not face_right:
 			face_right = true
-			$spritecollection.scale.x = -$spritecollection.scale.x
+			sprite_collection.scale.x = -sprite_collection.scale.x
 	elif movement.x < -x_anim_margin:
-		$spritecollection/AnimationPlayer.play("h_move")
+		animator.play("h_move")
 		if face_right:
 			face_right = false
-			$spritecollection.scale.x = -$spritecollection.scale.x
+			sprite_collection.scale.x = -sprite_collection.scale.x
 	elif movement.y > y_anim_margin:
 		animator.play("h_move")
 	elif movement.y < -y_anim_margin:
 		animator.play("h_move")
 	else:
-		$spritecollection/AnimationPlayer.play("idle", 0.2)
+		#$spritecollection/AnimationPlayer.play("Idle")
+		#Please define some tracks in idle to uncomment above line as when playing empty track give error
+		pass
 
 # Only called on the main player. Rerolls the player's unreceived inputs on top
 # of the server's player position

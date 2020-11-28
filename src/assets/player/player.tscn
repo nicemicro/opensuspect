@@ -2,34 +2,39 @@
 
 [ext_resource path="res://assets/player/player.gd" type="Script" id=1]
 [ext_resource path="res://assets/player/textures/characters/customizable/06-right-leg/brown-suit.png" type="Texture" id=2]
-[ext_resource path="res://assets/player/textures/characters/customizable/03-mouth/mouth-concerned.png" type="Texture" id=3]
+[ext_resource path="res://assets/player/textures/characters/customizable/10-face-wear/glasses.png" type="Texture" id=3]
 [ext_resource path="res://assets/player/textures/characters/customizable/02-body/body01.png" type="Texture" id=4]
 [ext_resource path="res://assets/player/textures/characters/customizable/04-left-leg/brown-suit.png" type="Texture" id=5]
 [ext_resource path="res://assets/player/textures/characters/customizable/11-hat-hair/brown-hat.png" type="Texture" id=6]
 [ext_resource path="res://assets/player/textures/characters/customizable/01-left-arm/brown-suit.png" type="Texture" id=7]
 [ext_resource path="res://assets/player/textures/characters/customizable/09-facial-hair/brown-eyebrows-sideburns.png" type="Texture" id=8]
-[ext_resource path="res://assets/player/textures/characters/customizable/10-face-wear/sunglasses.png" type="Texture" id=9]
+[ext_resource path="res://assets/player/textures/characters/customizable/03-mouth/mouth-smile.png" type="Texture" id=9]
 [ext_resource path="res://assets/player/textures/characters/customizable/08-right-arm/brown-suit.png" type="Texture" id=10]
 [ext_resource path="res://assets/player/textures/characters/customizable/07-clothes/brown-suit.png" type="Texture" id=11]
 [ext_resource path="res://assets/player/textures/characters/customizable/05-pants/brown-suit.png" type="Texture" id=12]
+[ext_resource path="res://assets/common/shaders/outline.shader" type="Shader" id=13]
+[ext_resource path="res://assets/player/viewport_render_target.gd" type="Script" id=14]
 [ext_resource path="res://assets/player/textures/light.png" type="Texture" id=15]
 [ext_resource path="res://assets/player/interactarea.gd" type="Script" id=16]
 
-[sub_resource type="CircleShape2D" id=3]
+[sub_resource type="CircleShape2D" id=1]
 radius = 100.0
+
+[sub_resource type="CanvasItemMaterial" id=2]
+light_mode = 2
+
+[sub_resource type="CapsuleShape2D" id=3]
+radius = 12.0
 
 [sub_resource type="CanvasItemMaterial" id=4]
 light_mode = 2
 
-[sub_resource type="CapsuleShape2D" id=5]
-radius = 12.0
+[sub_resource type="Animation" id=5]
+resource_name = "Idle"
 
-[sub_resource type="CanvasItemMaterial" id=6]
-light_mode = 2
-
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=6]
 resource_name = "h_move"
-length = 0.4
+length = 0.7
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("04-l-leg:rotation_degrees")
@@ -38,7 +43,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
 "transitions": PoolRealArray( 0.5, 2, 0.5, 2 ),
 "update": 0,
 "values": [ 0.0, -20.0, 0.0, 5.0 ]
@@ -50,7 +55,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
 "transitions": PoolRealArray( 0.5, 2, 0.5, 2 ),
 "update": 0,
 "values": [ 0.0, 5.0, 0.0, -20.0 ]
@@ -62,7 +67,7 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
 "transitions": PoolRealArray( 0.5, 2, 0.5, 2 ),
 "update": 0,
 "values": [ 0.0, 30.0, 0.0, -30.0 ]
@@ -74,69 +79,18 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
 "transitions": PoolRealArray( 0.5, 2, 0.5, 2 ),
 "update": 0,
 "values": [ 0.0, -30.0, 0.0, 30.0 ]
 }
 
-[sub_resource type="Animation" id=7]
-resource_name = "idle"
-length = 0.3
-tracks/0/type = "value"
-tracks/0/path = NodePath("01-l-arm:rotation_degrees")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0.3 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 0.0 ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("04-l-leg:rotation_degrees")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0.3 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 0.0 ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("06-r-leg:rotation_degrees")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0.3 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 0.0 ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("08-r-arm:rotation_degrees")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0.3 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 0.0 ]
-}
-[sub_resource type="ShaderMaterial" id=12]
+[sub_resource type="ShaderMaterial" id=7]
 shader = ExtResource( 13 )
 shader_param/line_color = Color( 1, 0, 0, 0 )
 shader_param/line_thickness = 15.0
 
-[sub_resource type="ViewportTexture" id=11]
+[sub_resource type="ViewportTexture" id=8]
 viewport_path = NodePath("SpritesViewportContainer/SpritesViewport")
 
 [node name="Player" type="KinematicBody2D" groups=[
@@ -160,12 +114,12 @@ enabled = true
 collision_mask = 17
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="interactarea"]
-shape = SubResource( 3 )
+shape = SubResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-material = SubResource( 4 )
+material = SubResource( 2 )
 rotation = 1.5708
-shape = SubResource( 5 )
+shape = SubResource( 3 )
 
 [node name="MainLight" type="Light2D" parent="."]
 position = Vector2( 0, -0.198425 )
@@ -183,18 +137,6 @@ drag_margin_left = 0.65
 drag_margin_top = 0.65
 drag_margin_right = 0.65
 drag_margin_bottom = 0.65
-
-[node name="Label" type="Label" parent="."]
-material = SubResource( 6 )
-margin_left = -250.0
-margin_top = -75.0
-margin_right = 250.0
-margin_bottom = -53.0
-text = "Pog"
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="SpritesViewportContainer" type="ViewportContainer" parent="."]
 anchor_right = 1.0
@@ -232,59 +174,75 @@ __meta__ = {
 "_editor_description_": "A camera is necessary for the viewport to be drawn."
 }
 
+[node name="Label" type="Label" parent="."]
+material = SubResource( 4 )
+margin_left = -248.0
+margin_top = -88.0
+margin_right = 252.0
+margin_bottom = -66.0
+text = "Pog"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="spritecollection" type="Node2D" parent="."]
-position = Vector2( 0, -26 )
-scale = Vector2( 0.05, 0.05 )
+position = Vector2( 0, -24 )
+scale = Vector2( 0.07, 0.07 )
+__meta__ = {
+"_editor_description_": "Sprites must be large or result of render target will be pixelated."
+}
 
 [node name="01-l-arm" type="Sprite" parent="spritecollection"]
-position = Vector2( 140, 180 )
+position = Vector2( 110, 120 )
 texture = ExtResource( 7 )
-offset = Vector2( -140, -180 )
+offset = Vector2( -110, -120 )
 
 [node name="02-body" type="Sprite" parent="spritecollection"]
 texture = ExtResource( 4 )
 
 [node name="03-mouth" type="Sprite" parent="spritecollection"]
-texture = ExtResource( 3 )
+texture = ExtResource( 9 )
 
 [node name="04-l-leg" type="Sprite" parent="spritecollection"]
-position = Vector2( 110, 390 )
+position = Vector2( 80, 280 )
 texture = ExtResource( 5 )
-offset = Vector2( -110, -390 )
+offset = Vector2( -80, -280 )
 
 [node name="05-pants" type="Sprite" parent="spritecollection"]
 texture = ExtResource( 12 )
 
 [node name="06-r-leg" type="Sprite" parent="spritecollection"]
-position = Vector2( -90, 390 )
+position = Vector2( -60, 280 )
 texture = ExtResource( 2 )
-offset = Vector2( 90, -390 )
+offset = Vector2( 60, -280 )
 
 [node name="07-clothes" type="Sprite" parent="spritecollection"]
 texture = ExtResource( 11 )
 
 [node name="08-r-arm" type="Sprite" parent="spritecollection"]
-position = Vector2( -120, 180 )
+position = Vector2( -90, 120 )
 texture = ExtResource( 10 )
-offset = Vector2( 120, -180 )
+offset = Vector2( 90, -120 )
 
 [node name="09-r-facial-hair" type="Sprite" parent="spritecollection"]
 texture = ExtResource( 8 )
 
 [node name="10-face-wear" type="Sprite" parent="spritecollection"]
-texture = ExtResource( 9 )
+texture = ExtResource( 3 )
 
 [node name="11-hat-hair" type="Sprite" parent="spritecollection"]
 texture = ExtResource( 6 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="spritecollection"]
-anims/h_move = SubResource( 8 )
-anims/idle = SubResource( 7 )
+anims/Idle = SubResource( 5 )
+anims/h_move = SubResource( 6 )
 
 [node name="ViewportRenderTarget" type="Sprite" parent="."]
-material = SubResource( 12 )
+material = SubResource( 7 )
+position = Vector2( 0, -24 )
 scale = Vector2( 0.07, 0.07 )
-texture = SubResource( 11 )
+texture = SubResource( 8 )
 script = ExtResource( 14 )
 __meta__ = {
 "_editor_description_": "The target of SpritesViewport's render texture."

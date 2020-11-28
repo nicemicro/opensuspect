@@ -3,7 +3,7 @@ extends Node2D
 export (int) var MAX_PLAYERS = 10
 export (String, FILE, "*.tscn") var player_s = "res://assets/player/player.tscn"
 var player_scene = load(player_s)
-#onready var player_scene = preload(player_s)
+
 # Used on both sides, to keep track of all players.
 var players = {}
 #!!!THIS IS IMPORTANT!!!

@@ -12,7 +12,6 @@ resource_name = "InteractMap"
 script = ExtResource( 1 )
 interact_with = NodePath("")
 interact_data = {
-
 }
 advanced/network_sync = false
 
@@ -22,7 +21,6 @@ resource_name = "InteractUI"
 script = ExtResource( 4 )
 ui_name = ""
 ui_data = {
-
 }
 action = 0
 advanced/reinstance = false

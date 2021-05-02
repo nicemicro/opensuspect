@@ -9,7 +9,6 @@ resource_name = "InteractUI"
 script = ExtResource( 2 )
 ui_name = ""
 ui_data = {
-
 }
 action = 0
 advanced/reinstance = false

@@ -7,7 +7,7 @@
 resource_local_to_scene = true
 resource_name = "InteractMap"
 script = ExtResource( 3 )
-interact_with = NodePath("clocktext")
+interact_with = NodePath("Label")
 interact_data = {
 }
 advanced/network_sync = false
@@ -131,8 +131,9 @@ func roundDown(num, step) -> int:
 
 [sub_resource type="Resource" id=3]
 resource_local_to_scene = true
+resource_name = "InteractUI"
 script = ExtResource( 2 )
-ui_name = "clockset"
+ui_name = "chemical_cabinet"
 ui_data = {
 }
 action = 0
@@ -142,8 +143,8 @@ advanced/free_on_close = false
 [resource]
 resource_local_to_scene = true
 script = SubResource( 2 )
-task_text = "standbutton clockset task"
+task_text = "chemical cabinet 1"
 ui_resource = SubResource( 3 )
 outputs/toggle_map_interactions = true
 outputs/output_map_interactions = [ SubResource( 1 ) ]
-is_task_global = true
+is_task_global = false

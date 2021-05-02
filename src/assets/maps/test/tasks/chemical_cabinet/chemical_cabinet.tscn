@@ -24,4 +24,5 @@ texture = ExtResource( 1 )
 [node name="DoorCloser" type="Timer" parent="."]
 wait_time = 8.0
 one_shot = true
+
 [connection signal="timeout" from="DoorCloser" to="." method="_on_DoorCloser_timeout"]

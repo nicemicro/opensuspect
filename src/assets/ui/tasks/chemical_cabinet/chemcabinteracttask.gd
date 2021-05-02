@@ -1,26 +1,10 @@
-[gd_resource type="Resource" load_steps=6 format=2]
-
-[ext_resource path="res://addons/opensusinteraction/resources/interactui/interactui.gd" type="Script" id=2]
-[ext_resource path="res://addons/opensusinteraction/resources/interactmap/interactmap.gd" type="Script" id=3]
-
-[sub_resource type="Resource" id=1]
-resource_local_to_scene = true
-resource_name = "InteractMap"
-script = ExtResource( 3 )
-interact_with = NodePath("clocktext")
-interact_data = {
-}
-advanced/network_sync = false
-
-[sub_resource type="GDScript" id=2]
-resource_name = "chemcab"
-script/source = "tool
+tool
 extends InteractTask
 
 signal times_updated(target, current, task_res)
 
 func _init():
-	add_networked_func(\"receive_times\", MultiplayerAPI.RPC_MODE_REMOTE)
+	add_networked_func("receive_times", MultiplayerAPI.RPC_MODE_REMOTE)
 
 # warning-ignore:unused_argument
 func _complete_task(player_id: int, _data: Dictionary):
@@ -32,10 +16,10 @@ func _can_complete_task(player_id: int, data: Dictionary):
 	return get_target_time(player_id) == get_current_time(player_id)
 
 func _assign_player(player_id: int, data: Dictionary):
-	if \"target_time\" in data:
-		set_target_time(data[\"target_time\"])
-	if \"current_time\" in data:
-		set_current_time(data[\"current_time\"])
+	if "target_time" in data:
+		set_target_time(data["target_time"])
+	if "current_time" in data:
+		set_current_time(data["current_time"])
 	update_map_text(player_id)
 
 func _sync_task():
@@ -46,19 +30,19 @@ func _sync_task():
 #		return
 #	target_time = gen_rand_time()
 #	current_time = gen_rand_time()
-#	emit_signal(\"times_updated\", target_time, current_time, self)
+#	emit_signal("times_updated", target_time, current_time, self)
 
 # warning-ignore:unused_argument
 func _get_task_data(player_id: int) -> Dictionary:
 	var dict: Dictionary = {}
-	dict[\"newText\"] = str(get_current_time())
+	dict["newText"] = str(get_current_time())
 	return dict
 
 func _gen_player_task_data(_player_id: int) -> Dictionary:
 	var data: Dictionary = {}
 	if get_tree().is_network_server():
-		data[\"target_time\"] = gen_rand_time()
-		data[\"current_time\"] = gen_rand_time()
+		data["target_time"] = gen_rand_time()
+		data["current_time"] = gen_rand_time()
 	return data
 
 func _registered(_new_task_id: int, new_task_data: Dictionary):
@@ -66,7 +50,7 @@ func _registered(_new_task_id: int, new_task_data: Dictionary):
 	# 	exist in resources
 	if TaskManager.get_tree().is_network_server():
 		return
-	for property in [\"target_time\", \"current_time\"]:
+	for property in ["target_time", "current_time"]:
 		if new_task_data.has(property):
 			set(property, new_task_data[property])
 
@@ -75,16 +59,16 @@ func _registered(_new_task_id: int, new_task_data: Dictionary):
 func send_times(target: int, current: int, player_id: int = Network.get_my_id()):
 	if task_registered and is_task_global():
 		player_id = TaskManager.GLOBAL_TASK_PLAYER_ID
-	#print(\"sending times out to network\")
-	task_rpc(\"receive_times\", [target, current, player_id])
+	#print("sending times out to network")
+	task_rpc("receive_times", [target, current, player_id])
 	update_map_text(player_id)
 
 func receive_times(target: int, current: int, player_id: int):
-	#print(\"received times, target: \", target, \" current: \", current)
+	#print("received times, target: ", target, " current: ", current)
 	# target time shouldn't change
 	# set_target_time(target, player_id)
 	set_current_time(current, player_id)
-	emit_signal(\"times_updated\", get_target_time(), get_current_time(), self)
+	emit_signal("times_updated", get_target_time(), get_current_time(), self)
 	update_map_text(player_id)
 
 # trigger every InteractMap resource connected to this task
@@ -98,16 +82,16 @@ func update_map_text(player_id: int):
 			resource.interact(attached_to, temp_interact_data)
 
 func set_target_time(time: int, player_id: int = Network.get_my_id()):
-	set_task_data_player_value(\"target_time\", time, player_id)
+	set_task_data_player_value("target_time", time, player_id)
 
 func get_target_time(player_id: int = Network.get_my_id()) -> int:
-	return get_task_data_player_value(\"target_time\", player_id)
+	return get_task_data_player_value("target_time", player_id)
 
 func set_current_time(time: int, player_id: int = Network.get_my_id()):
-	set_task_data_player_value(\"current_time\", time, player_id)
+	set_task_data_player_value("current_time", time, player_id)
 
 func get_current_time(player_id: int = Network.get_my_id()) -> int:
-	return get_task_data_player_value(\"current_time\", player_id)
+	return get_task_data_player_value("current_time", player_id)
 
 func gen_rand_time() -> int:
 	return normalise_time(randi())
@@ -127,23 +111,3 @@ func roundDown(num, step) -> int:
 	if normRound > num:
 		return normRound - step
 	return int(normRound)
-"
-
-[sub_resource type="Resource" id=3]
-resource_local_to_scene = true
-script = ExtResource( 2 )
-ui_name = "clockset"
-ui_data = {
-}
-action = 0
-advanced/reinstance = false
-advanced/free_on_close = false
-
-[resource]
-resource_local_to_scene = true
-script = SubResource( 2 )
-task_text = "standbutton clockset task"
-ui_resource = SubResource( 3 )
-outputs/toggle_map_interactions = true
-outputs/output_map_interactions = [ SubResource( 1 ) ]
-is_task_global = true
